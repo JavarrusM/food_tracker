@@ -1,9 +1,5 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request, g
 import sqlite3
-
-import click
-from flask import current_app, g
 
 app = Flask(__name__)
 
@@ -17,14 +13,8 @@ def connect_db():
 
 
 def get_db():
-    if not hasattr(g, "db"):
-        g.db = connect_db()
-    return g.db
-
-
-def get_db():
     if "db" not in g:
-        g.db = connect_db
+        g.db = connect_db()
 
     return g.db
 
@@ -47,10 +37,25 @@ def view():
     return render_template("day.html")
 
 
-@app.route("/food")
+@app.route("/food", methods=['GET', 'POST'])
 def food():
+    if request.method == 'POST':
+        form = request.form
+
+        name = form['food-name'].title()
+        carbohydrates = int(form['carbohydrates'])
+        protein = int(form['protein'])
+        fat = int(form['fat'])
+        
+        calories = protein * 4 + carbohydrates * 4 + fat * 9
+
+        db = get_db()
+        db.execute('insert into food (name, protein, carbohydrates, fat, calories) values (?, ?, ?, ?, ?)', \
+            [name, protein, carbohydrates, fat, calories])
+        db.commit()
+
     return render_template("add_food.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
