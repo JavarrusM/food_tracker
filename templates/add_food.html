@@ -37,7 +37,7 @@
             </div>
 
             <div class="panel-body">
-              <form method="POST" action="/">
+              <form method="POST" action="{{ url_for('food') }}">
                 <div class="form-group">
                   <label for="food-name">Food Name</label>
                   <input
@@ -45,6 +45,7 @@
                     class="form-control"
                     id="food-name"
                     placeholder="Food Name"
+                    name="food-name"
                   />
                 </div>
                 <div class="form-group">
@@ -54,6 +55,7 @@
                     class="form-control"
                     id="protein"
                     placeholder="Protein"
+                    name="protein"
                   />
                 </div>
                 <div class="form-group">
@@ -63,6 +65,7 @@
                     class="form-control"
                     id="carbohydrates"
                     placeholder="Carbohydrates"
+                    name="carbohydrates"
                   />
                 </div>
                 <div class="form-group">
@@ -72,6 +75,7 @@
                     class="form-control"
                     id="fat"
                     placeholder="Fat"
+                    name="fat"
                   />
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
